@@ -3,10 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "adminUsername": {
-            "value": null
+            "value": "adminUser"
         },
         "dnsNameForPublicIP": {
-            "value": null
+            "value": "KalpDns"
+        },
+        "adminPassword": {
+            "value": "P@$$w0rd"
         }
     }
 }

@@ -60,7 +60,7 @@ if ($UploadArtifacts)
         }
     }
 
-    if ($StorageAccountResourceGroupName)
+	if ($StorageAccountResourceGroupName)
 	{
 		Switch-AzureMode AzureResourceManager
 	    $StorageAccountKey = (Get-AzureStorageAccountKey -ResourceGroupName $StorageAccountResourceGroupName -Name $StorageAccountName).Key1
@@ -94,6 +94,14 @@ if ($UploadArtifacts)
        $OptionalParameters[$ArtifactsLocationSasTokenName] = $ArtifactsLocationSasToken
     }
 }
+
+	#(get-module AzureResourceManager).version.ToString()
+
+	#$ResourceManagerModulePath ="C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell\ResourceManager\AzureResourceManager\AzureResourceManager.psd1";
+	#remove-module AzureResourceManager;
+	#import-module $ResourceManagerModulePath
+
+	#(get-module AzureResourceManager).version.ToString()
 
 # Create or update the resource group using the specified template file and template parameters file
 Switch-AzureMode AzureResourceManager
