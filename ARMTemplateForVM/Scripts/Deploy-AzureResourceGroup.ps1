@@ -7,7 +7,7 @@ Param(
   [string] $StorageAccountName,
   [string] $StorageAccountResourceGroupName, 
   [string] $StorageContainerName = $ResourceGroupName.ToLowerInvariant() + '-stageartifacts',
-  [string] $TemplateFile = '..\Templates\WindowsVirtualMachine.json',
+  [string] $TemplateFilePath = '..\Templates\WindowsVirtualMachine.json',
   [string] $TemplateParametersFile = '..\Templates\WindowsVirtualMachine.param.dev.json',
   [string] $ArtifactStagingDirectory = '..\bin\Debug\staging',
   [string] $AzCopyPath = '..\Tools\AzCopy.exe'
@@ -20,10 +20,10 @@ try {
   [Microsoft.Azure.Common.Authentication.AzureSession]::ClientFactory.AddUserAgent("VSAzureTools-$UI$($host.name)".replace(" ","_"), "2.7")
 } catch { }
 
-Set-StrictMode -Version 3
+#Set-StrictMode -Version 3
 
 $OptionalParameters = New-Object -TypeName Hashtable
-$TemplateFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFile)
+$TemplateFilePath = [System.IO.Path]::Combine($PSScriptRoot, $TemplateFilePath)
 $TemplateParametersFile = [System.IO.Path]::Combine($PSScriptRoot, $TemplateParametersFile)
 
 if ($UploadArtifacts)
@@ -95,19 +95,12 @@ if ($UploadArtifacts)
     }
 }
 
-	#(get-module AzureResourceManager).version.ToString()
+#Switch-AzureMode AzureResourceManager
 
-	#$ResourceManagerModulePath ="C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell\ResourceManager\AzureResourceManager\AzureResourceManager.psd1";
-	#remove-module AzureResourceManager;
-	#import-module $ResourceManagerModulePath
 
-	#(get-module AzureResourceManager).version.ToString()
-
-# Create or update the resource group using the specified template file and template parameters file
-Switch-AzureMode AzureResourceManager
-New-AzureResourceGroup -Name $ResourceGroupName `
-                       -Location $ResourceGroupLocation `
-                       -TemplateFile $TemplateFile `
-                       -TemplateParameterFile $TemplateParametersFile `
+New-AzureRmResourceGroupDeployment -Name "ARMTemplateForVMDeployment" `
+						-ResourceGroupName $ResourceGroupName `
+						-TemplateFile $TemplateFilePath `
+						-TemplateParameterFile $TemplateParametersFile `
                         @OptionalParameters `
-                        -Force -Verbose
+						-Force -Verbose
