@@ -3,16 +3,19 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "virtualNetworkName": {
-            "value": null
+            "value": "VNET_ILB"
         },
         "networkInterfaceName": {
-            "value": null
+            "value": "NIF_ILB"
         },
         "loadBalancerName": {
-            "value": null
+            "value": "ILB_ARM"
         },
         "adminUsername": {
-            "value": null
+            "value": "adminUser"
+        },
+        "adminPassword": {
+            "value": "Orange@001"
         }
     }
 }
